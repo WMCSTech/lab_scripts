@@ -50,6 +50,15 @@ if [ "$SYSISDOWN" -eq 0 ]
 		echo "All systems are up."
 fi
 
-mv $REPORT $LOGLOCATION
+# Checks to make sure the directory specified exists
+# If directory exists, moves report
+# If not, creates directory and moves report
+if [ ! -d $LOGLOCATION ]
+	then
+		mkdir $LOGLOCATION
+		mv $REPORT $LOGLOCATION
+	else
+		mv $REPORT $LOGLOCATION
+fi
 
 ################### SCRIPT END ###################
