@@ -28,6 +28,7 @@ all=( "IP/HOSTA" "IP/HOSTB" "IP/HOSTC" )
 
 for i in ${all[@]}
 do
+	finger $USER@$i | grep $USER &> /dev/null # 20160314dlp - fingers a user on machine; a machine can be pinged, but cannot be logged into.
 	ping -c2 $i &> /dev/null #pings machines in array, may need to increase count if 1 doesn't work.
 	if [ "$?" -gt 0 ] #anything greater than 0 means the machine is up, #? returns previous command results
 	then
