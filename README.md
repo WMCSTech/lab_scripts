@@ -1,6 +1,6 @@
 # lab_scripts
 
-### DISCLAIMER ###
+#DISCLAIMER
 
 This repository is primarily for new linux system administrators. 
 
@@ -16,13 +16,13 @@ Dustin
 
 
 
-### DESCRIPTION OF SCRIPTS ###
+#DESCRIPTION OF SCRIPTS
 
-##### wake.pl #####
+##wake.pl##
 
 Script wakes up terminals specified in the script. You'll need to place this script on the server or machine you are using as the centralized hub; Preferrably one that stays up the most. 
 
-# INSTALLATION #
+####INSTALLATION
 1. On host server, change to root and open the cron daemon:
 su
 crontab -e
@@ -46,25 +46,25 @@ This will wake up the specified computer.
 
 
 
-##### reboot.sh #####
+##reboot.sh
 
 Super simple if statement script to reboot the computer if it needs to be shutdown.
 Checks for the reboot-required file and, if it finds it, reboots the system. Also,
 the file confirms the package configuration files, checks for updates, and upgrades.
 
-# INSTALLATION # 
+####INSTALLATION
 
 Make a cron job on the host server to run this script to check if a reboot is required.
 
 
 
 
-##### sys_down.sh #####
+##sys_down.sh
 
 Sends report to specified email address concerning down computers and logs whether computers
 are up or not. 
 
-# INSTALLATION #
+####INSTALLATION
 
 1. Modify the variables in the script to your specifications.
 
@@ -73,42 +73,42 @@ are up or not.
 
 
 
-##### mirror.sh #####
+##mirror.sh
 
-# INSTALLATION #
-
-
+####INSTALLATION
 
 
 
 
-##### mirror.py #####
+
+
+##mirror.py
 
 Credit goes to Jacob Vlijm for the creation of this code. 
 Source: https://askubuntu.com/questions/568035/multiple-monitor-mirrored-as-default
 
-# INSTALLATION #
+####INSTALLATION
 
 Run script from terminal to make the screens default to a mirrored status.
 
 
-##### autonfs.sh #####
+##autonfs.sh
 
 https://help.ubuntu.com/community/AutomaticallyMountNFSSharesWithoutAutofsHowto
 
-# INSTALLATION # 
+####INSTALLATION
 
 See link above
 
 
 
 
-##### idlekiller.sh #####
+##idlekiller.sh
 
 All credit goes to murukeshm
 https://github.com/murukeshm/scratchpad/tree/master/linux/idlekiller
 
-# INSTALLATION #
+####INSTALLATION
 
 Install xprintidle:
 sudo apt-get install xprintidle
@@ -133,3 +133,18 @@ I haven't added a way to exclude users from this yet.
 Logging
 The script logs to syslog using the IDLEKILLER tag.
 
+
+##sys_command.sh
+
+Used to perform repetitive tasks in the lab.
+
+####INSTALLATION
+
+
+
+
+##sys_down.sh
+
+Uses the finger deamon to check and see if a computer is down. If yes, then it sends an email to a specified user.
+
+####INSTALLATION
