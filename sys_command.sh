@@ -59,7 +59,7 @@ elif [[ "$1" == update ]]; then
 			shutdown -r +1";
 	done
 else
-	echo "Argument not found or no argument passsed. Closing..."
+	echo "Argument not found or no argument passed. Closing..."
 fi
 
 ################### SCRIPT END ###################

@@ -48,7 +48,7 @@ if [ "$SYSISDOWN" -eq 0 ]
 	then
 		cat $REPORT | grep down | mail -s "Downed Terminals" $EMAIL
 	else
-		echo "All systems are up."
+		echo "All systems are up. $LOGDATE"
 fi
 
 # Checks to make sure the directory specified exists
