@@ -175,3 +175,14 @@ After you specify the directory you want searched, diskhogs go through and finds
 ####INSTALLATION
 
 Open the script and change the directory variable to specify where you want the script to search. Then run the script as root. You don't need to run as root if the script can access the directories you specified as the current user.
+
+
+
+
+##epoptes_install.sh
+
+Encountered a bunch of errors when trying to install Epoptes from the Ubuntu Store, so I had to download a proposed version from another PPA. It also had some errors, but this script walks you through it for a successful installation.
+
+####INSTALLATION
+
+The script walks you through it. Client is for a student machine and the server is for the faculty machine.
