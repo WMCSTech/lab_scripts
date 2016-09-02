@@ -12,6 +12,7 @@
 #VARIABLES
 EPDIR="/usr/local/bin/epoptes"
 PPA="epoptes/proposed"
+PROFS= ( add-users-here )
 
 
 # Check to see if running as root
@@ -21,7 +22,7 @@ if [[ $USER != root ]] ; then
 fi
 
 # Pulls user list from hobbes
-scp user@server:/home/user/userlist.txt / 
+scp user@server:/home/user/userlist.txt /
 
 # Function checks to see if user exists in group and if not, adds them
 addusers ()
@@ -38,7 +39,14 @@ addusers ()
 	done < /userlist.txt
 }
 
-# Checks to see if the PPA defined in the $PPA variable exists, if not, installed 
+addprofs ()
+{
+	for i in ${PROFS[@]}; do
+			gpasswd -a $i epoptes
+		done
+}
+
+# Checks to see if the PPA defined in the $PPA variable exists, if not, installed
 if ! grep -q -a "$PPA" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
 	add-apt-repository ppa:epoptes/proposed
 	apt-get update
@@ -49,19 +57,22 @@ while read -p "{C}lient or {S}erver? " TYPE; do # Server is for the Host PC (tea
 
 		apt-get install epoptes -y # Installs epoptes
 		apt-get install -f # Forces installation
-		
-		addusers # Adds all users from Hobbes to the epoptes group
+
+		addprofs # Adds all profs from Hobbes to the epoptes group
 
 		# Allows all epoptes users to run the epoptes service
-
-		echo "%epoptes 	ALL=NOPASSWD: /usr/sbin/service epoptes *" >> /etc/sudoers
+		if ! grep -q "%epoptes" /etc/sudoers; then
+			echo "%epoptes 	ALL=NOPASSWD: /usr/sbin/service epoptes *" >> /etc/sudoers
+		fi
 
 		# Create epoptes symlink
-		touch $EPDIR
-		echo "#!/bin/bash" >> $EPDIR 
-		echo "sudo service epoptes --full-restart" >> $EPDIR
-		echo "/usr/bin/epoptes" >> $EPDIR
-
+		if [[ ! -f /usr/local/bin/epoptes ]]; then
+			touch $EPDIR
+			echo "#!/bin/bash" >> $EPDIR
+			echo "sudo service epoptes --full-restart" >> $EPDIR
+			echo "/usr/bin/epoptes" >> $EPDIR
+			chmod +x /usr/local/bin/epoptes
+		fi
 		break
 
 	elif [[ $TYPE =~ ([ Cc ])$ ]] || [[ $TYPE =~ ([ "Client" ])$ ]] || [[ $TYPE =~ ([ "client" ])$ ]]; then
@@ -112,7 +123,7 @@ shutdown -r +1
 # 		"S"|"s"|"server"|"Server")
 # 			apt-get install epoptes -y # Installs epoptes
 # 			apt-get install -f # Forces installation
-			
+
 # 			addusers # Adds all users from Hobbes to the epoptes group
 
 # 			# Allows all epoptes users to run the epoptes service
@@ -121,7 +132,7 @@ shutdown -r +1
 
 # 			# Create epoptes symlink
 # 			touch $EPDIR
-# 			echo "#!/bin/bash" >> $EPDIR 
+# 			echo "#!/bin/bash" >> $EPDIR
 # 			echo "sudo service epoptes --full-restart" >> $EPDIR
 # 			echo "/usr/bin/epoptes" >> $EPDIR
 # 			;;
