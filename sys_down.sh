@@ -20,21 +20,39 @@ SYSUP=$(uptime | awk '{print $2" "$3" "$4}' | sed 's/,//g') #sed strips the comm
 LOGDATE=$(date +"%Y-%m-%d_%H:%M")
 REPORT="$LOGDATE"_sysreport.log #amends logdate to report name
 
-EMAIL="foo@bar.com" #change email to recieve notification
-LOGLOCATION="/some/directory" #change to where you want the log file to go
+EMAIL="dlp@localhost" #change email to recieve notification
+LOGLOCATION="/home/dlp/reports" #change to where you want the log file to go
 
 # Array containing all terminal hostnames, replace with your own IP's or hostnames
-all=( "IP/HOSTA" "IP/HOSTB" "IP/HOSTC" )
+# dlp20170425 - removed backus while out for repairs. It's behind jpeckert
+# dlp20180831 - put backus back and removed turing and dijkstra for capstone project
+# dlp20191009 - put turing and dijkstra back
 
+all=(	ritchie tedcodd	pausch	vonneumann	mauchly	gertrudeblanch	keniverson
+	goldstine	zuse	jonpostel	atanasoff	landin	allennewell	kaymcnulty	shockley	johnmccarthy	kleene
+	holberton	engelbart	jefraskin	estrin	evinemeth	skolem
+	annieeasley	emilpost	quine	nygaard	noyce	bartik	anitaborg
+	markweiser	al-khwarizmi	pnueli	gracehopper	anwang	perlis	buituongphong
+	lamarr	skipellis	brattain	babbage	fitts	shannon	
+	backus	jpeckert	turing	dijkstra	adalovelace	aphrodite	apollo	ares	artemis
+	athena	coeus	crius	cronus	demeter	dionysus	hephaestus	hera
+	hermes	hestia	hyperion	iapetus	mnemosyne	oceanus	phoebe	poseidon
+	rhea	tethys	theia	themis	zeus	jimgray	hollerith )
+# removed jimgray from above as it is with Ahmed Elsayed - dlp2020.08.24
+# replaced jimgray as the computer is no longer checked out - dlp2022.08.26
 for i in ${all[@]}
 do
-	finger $USER@$i | grep $USER &> /dev/null # 20160314dlp - fingers a user on machine; a machine can be pinged, but cannot be logged into.
-	ping -c2 $i &> /dev/null #pings machines in array, may need to increase count if 1 doesn't work.
+	finger $USER@$i | grep $USER &> /dev/null #fingers a user on machine; machine can be pinged, but not logged into.
+	#ping -c2 $i &> /dev/null #pings machines in array, may need to increase count if 1 doesn't work.
 	if [ "$?" -gt 0 ] #anything greater than 0 means the machine is up, #? returns previous command results
 	then
+		
 		echo "$i is down"
+		
 	else
+		
 		echo "$i has been $SYSUP"
+
 	fi
 done >> $REPORT
 
@@ -48,8 +66,9 @@ if [ "$SYSISDOWN" -eq 0 ]
 	then
 		cat $REPORT | grep down | mail -s "Downed Terminals" $EMAIL
 	else
-		echo "All systems are up. $LOGDATE"
+		echo "All systems are up."
 fi
+
 
 # Checks to make sure the directory specified exists
 # If directory exists, moves report
